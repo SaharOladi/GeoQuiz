@@ -1,9 +1,11 @@
 package com.example.geoquiz.Controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,7 +15,15 @@ import android.widget.Toast;
 import com.example.geoquiz.R;
 import com.example.geoquiz.model.Question;
 
+import java.io.Serializable;
+
 public class GeoActivity extends AppCompatActivity {
+
+    private static final String TAG = "GeoQuizActivity";
+    private static final String BUNDLE_KEY_CURRENT_INDEX = "currentIndex";
+    private static final String BUNDLE_KEY_GRADE = "grade";
+    private static final String BUNDDLE_KEY_BUTTOMN_ENABLEMENT = "buttomn_enablement";
+
 
     private Button mButtonTrue;
     private Button mButtonFalse;
@@ -26,7 +36,10 @@ public class GeoActivity extends AppCompatActivity {
     private View mNextPrevLayout;
     private View mScoreLayout;
 
+
     private int mCurrentIndex = 0;
+    private String mgrade = "";
+    private boolean[] boolArr;
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia, false),
             new Question(R.string.question_oceans, true),
@@ -35,19 +48,89 @@ public class GeoActivity extends AppCompatActivity {
             new Question(R.string.question_americas, false),
             new Question(R.string.question_asia, false)
     };
+    private boolean[] mBoolAnswered = new boolean[mQuestionBank.length];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geo);
-
         findViews();
+
+        Log.d(TAG, "onCreate");
+
+        if (savedInstanceState != null) {
+            Log.d(TAG, "savedInstanceState: " + savedInstanceState);
+            mgrade = savedInstanceState.getString(BUNDLE_KEY_GRADE);
+            mCurrentIndex = savedInstanceState.getInt(BUNDLE_KEY_CURRENT_INDEX, 0);
+            boolArr = savedInstanceState.getBooleanArray(BUNDDLE_KEY_BUTTOMN_ENABLEMENT);
+            for (int i = 0; i < mQuestionBank.length; i++) {
+                mQuestionBank[i].setAnswered(boolArr[i]);
+            }
+
+            setAnswerButtonsEnnoblement(!mQuestionBank[mCurrentIndex].isAnswered());
+        } else
+            Log.d(TAG, "savedInstanceState is NULL!!");
         updateQuestion();
-
-
-
-
         //This listener is implemented as an anonymous inner class.
+        setListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "onDestory");
+    }
+
+    /**
+     * it will save bundle before it will be destroyed
+     *
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: " + mCurrentIndex);
+
+        for (int i = 0; i < mQuestionBank.length; i++) {
+            mBoolAnswered[i] = mQuestionBank[i].isAnswered();
+        }
+
+        outState.putInt(BUNDLE_KEY_CURRENT_INDEX, mCurrentIndex);
+        outState.putString(BUNDLE_KEY_GRADE, showGradeIfAnsweredAll());
+        outState.putBooleanArray(BUNDDLE_KEY_BUTTOMN_ENABLEMENT, mBoolAnswered);
+    }
+
+    private void setListener() {
         mButtonTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,11 +175,22 @@ public class GeoActivity extends AppCompatActivity {
         mButtonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNextPrevLayout.setVisibility(View.VISIBLE);
+                if (mNextPrevLayout != null) {
+                    mNextPrevLayout.setVisibility(View.VISIBLE);
+                }
                 mAnswerLayout.setVisibility(View.VISIBLE);
                 mQuestionText.setVisibility(View.VISIBLE);
                 mScoreLayout.setVisibility(View.GONE);
-                GeoActivity.this.recreate();
+                mCurrentIndex = 0;
+                mQuestionBank = new Question[]{
+                        new Question(R.string.question_australia, false),
+                        new Question(R.string.question_oceans, true),
+                        new Question(R.string.question_mideast, false),
+                        new Question(R.string.question_africa, true),
+                        new Question(R.string.question_americas, false),
+                        new Question(R.string.question_asia, false)};
+                updateQuestion();
+//                GeoActivity.this.recreate();
 
             }
         });
@@ -111,7 +205,9 @@ public class GeoActivity extends AppCompatActivity {
         }
         if (countAnswered == mQuestionBank.length || mCurrentIndex == mQuestionBank.length - 1) {
             grade = calculateGrade();
-            mNextPrevLayout.setVisibility(View.GONE);
+            if (mNextPrevLayout != null) {
+                mNextPrevLayout.setVisibility(View.GONE);
+            }
             mAnswerLayout.setVisibility(View.GONE);
             mQuestionText.setVisibility(View.GONE);
             mScoreLayout.setVisibility(View.VISIBLE);
@@ -119,8 +215,6 @@ public class GeoActivity extends AppCompatActivity {
 
         String text = "امتیاز شما برابر است با: " + grade;
         return text;
-
-
     }
 
     private double calculateGrade() {
@@ -129,6 +223,11 @@ public class GeoActivity extends AppCompatActivity {
             countAnsweredCorrectly = mQuestionBank[i].isAnsweredCorrect() ? countAnsweredCorrectly + 1 : countAnsweredCorrectly;
         }
         return countAnsweredCorrectly;
+    }
+
+    private void setAnswerButtonsEnnoblement(boolean isEnabled) {
+        mButtonTrue.setEnabled(isEnabled);
+        mButtonFalse.setEnabled(isEnabled);
     }
 
     private void updateButtonEnnoblement() {
@@ -157,11 +256,6 @@ public class GeoActivity extends AppCompatActivity {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
-    private void setAnswerButtonsEnnoblement(boolean isEnabled) {
-        mButtonTrue.setEnabled(isEnabled);
-        mButtonFalse.setEnabled(isEnabled);
-    }
-
     private void findViews() {
         mQuestionText = findViewById(R.id.textview_question_txt);
         mButtonTrue = findViewById(R.id.btn_true);
@@ -175,162 +269,3 @@ public class GeoActivity extends AppCompatActivity {
         mNextPrevLayout = findViewById(R.id.next_prev);
     }
 }
-
-
-//    private Button mButtonTrue;
-//    private Button mButtonFalse;
-//    private ImageButton mButtonNext;
-//    private ImageButton mButtonPrev;
-//    private TextView mQuestionText;
-//
-//
-//    private int mCurrentIndex = 0;
-//    private Question[] mQuestionBank = {
-//            new Question(R.string.question_australia, false),
-//            new Question(R.string.question_oceans, true),
-//            new Question(R.string.question_mideast, false),
-//            new Question(R.string.question_africa, true),
-//            new Question(R.string.question_americas, false),
-//            new Question(R.string.question_asia, false)
-//    };
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_geo);
-//
-//
-//        findViews();
-//        setOnListener();
-//        updateQuestion();
-//    }
-//
-//    private void setOnListener() {
-//        mButtonTrue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                checkAnswer(true);
-//                mQuestionBank[mCurrentIndex].setAnswered(true);
-//                setAnswerButtonsEnablement(false);
-//            }
-//        });
-//
-//        mButtonFalse.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                checkAnswer(false);
-//                mQuestionBank[mCurrentIndex].setAnswered(true);
-//                setAnswerButtonsEnablement(false);
-//            }
-//        });
-//
-//        mButtonNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-//                updateQuestion();
-//                updateButtonEnablement();
-//                showGrade();
-//            }
-//        });
-//
-//        mButtonPrev.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.length) % mQuestionBank.length;
-//                updateQuestion();
-//                updateButtonEnablement();
-//                showGrade();
-//            }
-//        });
-//    }
-//
-//    private void findViews() {
-//        mQuestionText = findViewById(R.id.textview_question_txt);
-//        mButtonTrue = findViewById(R.id.btn_true);
-//        mButtonFalse = findViewById(R.id.btn_false);
-//        mButtonNext = findViewById(R.id.btn_next);
-//        mButtonPrev = findViewById(R.id.btn_prev);
-//    }
-//
-//    private void updateQuestion() {
-//        int questionResId = mQuestionBank[mCurrentIndex].getQuestionResId();
-//        mQuestionText.setText(questionResId);
-//    }
-//
-//    private void checkAnswer(boolean userPressed) {
-//        int msg = 0;
-//        if (mQuestionBank[mCurrentIndex].isAnsweredTrue() == userPressed) {
-//            msg = R.string.toast_correct;
-//            mQuestionBank[mCurrentIndex].setAnsweredCorrect(true);
-//        } else {
-//            msg = R.string.toast_incorrect;
-//            mQuestionBank[mCurrentIndex].setAnsweredCorrect(false);
-//        }
-//        Toast.makeText(GeoActivity.this, msg, Toast.LENGTH_LONG).show();
-//    }
-//
-//    private void setAnswerButtonsEnablement(boolean isEnabled) {
-//        mButtonTrue.setEnabled(isEnabled);
-//        mButtonFalse.setEnabled(isEnabled);
-//    }
-//
-//    private void updateButtonEnablement() {
-//        if (mQuestionBank[mCurrentIndex].isAnswered()) {
-//            setAnswerButtonsEnablement(false);
-//        } else {
-//            setAnswerButtonsEnablement(true);
-//        }
-//    }
-//
-//    private int calGrade() {
-//        int countCorrect = 0;
-//        for (int i = 0; i < mQuestionBank.length; i++) {
-//            countCorrect = mQuestionBank[mCurrentIndex].isAnsweredCorrect() ? countCorrect + 1 : countCorrect;
-//        }
-//        return countCorrect;
-//    }
-//
-//    private void showGrade() {
-//        int grade = 0;
-//        grade = calGrade();
-//        Toast.makeText(this, "امتیاز شما برابر است با: "+ grade, Toast.LENGTH_SHORT).show();
-//
-//    }
-
-
-//    private void setViewsButtonTrue() {
-//        Toast toast = Toast.makeText(GeoActivity.this, R.string.toast_correct, Toast.LENGTH_SHORT);
-//        toast.setGravity(Gravity.TOP, 0, 225);
-//
-//
-//        View view_1 = toast.getView();
-//        TextView textView = view_1.findViewById(android.R.id.message);
-//        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
-//        textView.setTextSize(20);
-//
-//        mTextView.setTextSize(20);
-//        mTextView.setTextColor(Color.GREEN);
-//
-//        toast.show();
-//    }
-
-
-//    private void setViewsButtonFalse() {
-//        Toast toast = Toast.makeText(GeoActivity.this, R.string.toast_incorrect, Toast.LENGTH_SHORT);
-//        toast.setGravity(Gravity.BOTTOM, 0, 50);
-//
-//        View view_1 = toast.getView();
-//        TextView textView = view_1.findViewById(android.R.id.message);
-//        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_clear_24, 0, 0, 0);
-//        textView.setTextSize(20);
-//
-//        mTextView.setTextSize(20);
-//        mTextView.setTextColor(Color.RED);
-//
-//        toast.show();
-//    }
-
-
