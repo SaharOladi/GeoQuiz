@@ -3,8 +3,11 @@ package com.example.geoquiz.model;
 import java.io.Serializable;
 
 public class Question implements Serializable {
+    // the id of each question
     private int mQuestionResId;
+    // the answer of each question
     private boolean mIsAnsweredTrue;
+
     private boolean mIsAnsweredCorrect;
     private boolean mIsAnswered;
 

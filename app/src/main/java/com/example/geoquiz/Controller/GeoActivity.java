@@ -3,6 +3,7 @@ package com.example.geoquiz.Controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class GeoActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY_CURRENT_INDEX = "currentIndex";
     private static final String BUNDLE_KEY_GRADE = "grade";
     private static final String BUNDDLE_KEY_BUTTOMN_ENABLEMENT = "buttomn_enablement";
+    public static final String EXTRA_QUESTION_ANSWER = "question_answer";
 
 
     private Button mButtonTrue;
@@ -161,7 +163,10 @@ public class GeoActivity extends AppCompatActivity {
         mButtonCheat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //to do
+                Intent intent = new Intent(GeoActivity.this, CheatActivity.class);
+                intent.putExtra(EXTRA_QUESTION_ANSWER, mQuestionBank[mCurrentIndex].isAnsweredTrue());
+                startActivity(intent);
+
             }
         });
     }
