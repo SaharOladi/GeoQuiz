@@ -11,6 +11,16 @@ public class Question implements Serializable {
     private boolean mIsAnsweredCorrect;
     private boolean mIsAnswered;
 
+    private boolean mIsCheater;
+
+    public boolean isCheater() {
+        return mIsCheater;
+    }
+
+    public void setCheater(boolean cheater) {
+        mIsCheater = cheater;
+    }
+
     public Question(int questionResId, boolean isAnsweredTrue) {
         mQuestionResId = questionResId;
         mIsAnsweredTrue = isAnsweredTrue;
