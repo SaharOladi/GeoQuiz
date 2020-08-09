@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.geoquiz.R;
 import com.example.geoquiz.model.Question;
 
-import java.io.Serializable;
 
 public class GeoActivity extends AppCompatActivity {
 
@@ -27,19 +26,22 @@ public class GeoActivity extends AppCompatActivity {
 
     private Button mButtonTrue;
     private Button mButtonFalse;
+    private Button mButtonReset;
+    private Button mButtonCheat;
+
     private ImageButton mButtonNext;
     private ImageButton mButtonPrev;
+
     private TextView mQuestionText;
     private TextView mScoreText;
-    private Button mButtonReset;
+
     private View mAnswerLayout;
     private View mNextPrevLayout;
     private View mScoreLayout;
 
 
     private int mCurrentIndex = 0;
-    private String mgrade = "";
-    private boolean[] boolArr;
+    private String mGrade = "";
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia, false),
             new Question(R.string.question_oceans, true),
@@ -61,11 +63,10 @@ public class GeoActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             Log.d(TAG, "savedInstanceState: " + savedInstanceState);
-            mgrade = savedInstanceState.getString(BUNDLE_KEY_GRADE);
+            mGrade = savedInstanceState.getString(BUNDLE_KEY_GRADE);
             mCurrentIndex = savedInstanceState.getInt(BUNDLE_KEY_CURRENT_INDEX, 0);
-            boolArr = savedInstanceState.getBooleanArray(BUNDDLE_KEY_BUTTOMN_ENABLEMENT);
             for (int i = 0; i < mQuestionBank.length; i++) {
-                mQuestionBank[i].setAnswered(boolArr[i]);
+                mQuestionBank[i].setAnswered(savedInstanceState.getBooleanArray(BUNDDLE_KEY_BUTTOMN_ENABLEMENT)[i]);
             }
 
             setAnswerButtonsEnnoblement(!mQuestionBank[mCurrentIndex].isAnswered());
@@ -74,41 +75,6 @@ public class GeoActivity extends AppCompatActivity {
         updateQuestion();
         //This listener is implemented as an anonymous inner class.
         setListener();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.d(TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Log.d(TAG, "onDestory");
     }
 
     /**
@@ -190,8 +156,12 @@ public class GeoActivity extends AppCompatActivity {
                         new Question(R.string.question_americas, false),
                         new Question(R.string.question_asia, false)};
                 updateQuestion();
-//                GeoActivity.this.recreate();
-
+            }
+        });
+        mButtonCheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //to do
             }
         });
     }
@@ -205,6 +175,7 @@ public class GeoActivity extends AppCompatActivity {
         }
         if (countAnswered == mQuestionBank.length || mCurrentIndex == mQuestionBank.length - 1) {
             grade = calculateGrade();
+            // because of landscape layout
             if (mNextPrevLayout != null) {
                 mNextPrevLayout.setVisibility(View.GONE);
             }
@@ -263,9 +234,45 @@ public class GeoActivity extends AppCompatActivity {
         mButtonNext = findViewById(R.id.btn_next);
         mButtonPrev = findViewById(R.id.btn_prev);
         mButtonReset = findViewById(R.id.btn_reset);
+        mButtonCheat = findViewById(R.id.btn_cheat);
         mScoreText = findViewById(R.id.txt_score);
         mScoreLayout = findViewById(R.id.score);
         mAnswerLayout = findViewById(R.id.answer);
         mNextPrevLayout = findViewById(R.id.next_prev);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "onDestory");
     }
 }

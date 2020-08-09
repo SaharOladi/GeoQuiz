@@ -67,6 +67,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_cheat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#090909"
+        android:textSize="24sp"
+        android:text="@string/button_cheat" />
+
     <LinearLayout
         android:id="@+id/score"
         android:layout_width="wrap_content"
@@ -86,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="بازی مجدد" />
+
     </LinearLayout>
 
 </LinearLayout>
