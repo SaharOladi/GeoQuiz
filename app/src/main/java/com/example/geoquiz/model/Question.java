@@ -1,8 +1,6 @@
 package com.example.geoquiz.model;
 
-import java.io.Serializable;
-
-public class Question implements Serializable {
+public class Question {
     // the id of each question
     private int mQuestionResId;
     // the answer of each question

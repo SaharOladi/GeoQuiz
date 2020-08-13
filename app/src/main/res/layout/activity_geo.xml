@@ -31,7 +31,7 @@
             android:id="@+id/btn_true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/buttom_true"
+            android:text="@string/button_true"
             android:textColor="#070707"
             android:textSize="24sp" />
 
@@ -71,9 +71,9 @@
         android:id="@+id/btn_cheat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/button_cheat"
         android:textColor="#090909"
-        android:textSize="24sp"
-        android:text="@string/button_cheat" />
+        android:textSize="24sp" />
 
     <LinearLayout
         android:id="@+id/score"

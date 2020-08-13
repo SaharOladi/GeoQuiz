@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
     <string name="text_quetion">تهران پایتخت ایران است</string>
-    <string name="buttom_true">درست</string>
+    <string name="button_true">درست</string>
     <string name="button_false">نادرست</string>
     <string name="toast_correct">جواب شما درست است</string>
     <string name="toast_incorrect">جواب شما نادرست است</string>
@@ -18,6 +18,4 @@
     <string name="warning_text">آیا اطمینان برای تقلب دارید؟</string>
     <string name="button_show_answer">نمایش تقلب</string>
     <string name="toast_judgment">تقلب کار خوبی نیست</string>
-    <string name="toast_judjment">تقلب کار خوبی نیست</string>
-
 </resources>

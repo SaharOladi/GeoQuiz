@@ -12,12 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.geoquiz.R;
 import com.example.geoquiz.model.Question;
-
 
 public class GeoActivity extends AppCompatActivity {
 
@@ -246,7 +245,7 @@ public class GeoActivity extends AppCompatActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnsweredTrue();
         int messageResId = 0;
         if (mIsCheater) {
-            messageResId = R.string.toast_judjment;
+            messageResId = R.string.toast_judgment;
         } else {
 
             if (userPressedTrue == answerIsTrue) {
