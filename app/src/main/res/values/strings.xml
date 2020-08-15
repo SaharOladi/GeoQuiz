@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">GeoQuiz</string>
-    <string name="text_quetion">تهران پایتخت ایران است</string>
-    <string name="button_true">درست</string>
+    <string name="app_name">MyGeoQuiz</string>
+    <string name="question_text">تهران پایتخت ایران است</string>
     <string name="button_false">نادرست</string>
-    <string name="toast_correct">جواب شما درست است</string>
-    <string name="toast_incorrect">جواب شما نادرست است</string>
+    <string name="button_true">درست</string>
 
+    <string name="toast_correct">جواب شما صحیح می باشد</string>
+    <string name="toast_incorrect">جواب شما غلط می باشد</string>
 
     <string name="question_australia">استرالیا بزرگ ترین قاره جهان است.</string>
     <string name="question_oceans">اقیانوس آرام بزرگ ترین اقیانوس جهان است.</string>
@@ -14,8 +14,25 @@
     <string name="question_americas">کشور آمریکا پرجمعیت ترین کشور دنیا است.</string>
     <string name="question_asia">قاره آسیا در نیم کره جنوبی جهان واقع شده است.</string>
 
-    <string name="button_cheat">تقلب</string>
-    <string name="warning_text">آیا اطمینان برای تقلب دارید؟</string>
-    <string name="button_show_answer">نمایش تقلب</string>
+    <string name="button_next">بعدی</string>
+    <string name="button_previous">قبلی</string>
+    <string name="score_0"> : امتیاز  </string>
+    <string name="current_index">currentIndex</string>
+    <string name="number_of_answered">number</string>
+    <string name="question_bank">Question_bank</string>
+    <string name="Current_Index" />
+    <string name="Number_Of_Answered" />
+    <string name="Question_Bank" />
     <string name="toast_judgment">تقلب کار خوبی نیست</string>
+    <string name="True_button">   کلید درست</string>
+    <string name="false_button">کلید نادرست</string>
+    <string name="red">قرمز</string>
+    <string name="green">سبز</string>
+    <string name="wight">سفید</string>
+    <string name="blue">آبی</string>
+    <string name="next_button">کلید بعدی</string>
+    <string name="previous_button">کلید قبلی</string>
+    <string name="first_button">کلید اولین</string>
+    <string name="last_button">کلید آخرین</string>
+    <string name="cheat_button">کلید تقلب</string>
 </resources>
