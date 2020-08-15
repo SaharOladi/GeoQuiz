@@ -32,7 +32,10 @@
     <string name="blue">آبی</string>
     <string name="next_button">کلید بعدی</string>
     <string name="previous_button">کلید قبلی</string>
-    <string name="first_button">کلید اولین</string>
-    <string name="last_button">کلید آخرین</string>
     <string name="cheat_button">کلید تقلب</string>
+
+    <string name="question_size">سایز سوالات را انتخاب کنید.</string>
+    <string name="small">کوچک</string>
+    <string name="medium">متوسط</string>
+    <string name="large">بزرگ</string>
 </resources>

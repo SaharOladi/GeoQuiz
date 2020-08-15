@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.CheatActivity"></activity>
+        <activity android:name=".Controller.SettingActivity"></activity>
+        <activity android:name=".Controller.CheatActivity" />
         <activity android:name=".Controller.GeoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

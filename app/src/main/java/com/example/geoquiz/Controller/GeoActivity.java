@@ -30,7 +30,7 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
     public static final String CURRENT_SCORE = "CURRENT_SCORE";
 
     public static final int REQUEST_CODE_CHEAT = 0;
-    public static final int REQUEST_CODE_SETTING = 1;
+    public static final int REQUEST_SETTING_CODE = 1;
 
     private LinearLayout mMainLayout;
     private LinearLayout mScoreLayout;
@@ -38,11 +38,12 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
     private Button mButtonTrue;
     private Button mButtonFalse;
     private Button mButtonCheat;
+    private Button mButtonReset;
+    private Button mButtonSetting;
     private ImageButton mImageButtonNext;
     private ImageButton mImageButtonPrev;
     private TextView mTextViewScore;
     private TextView mTextViewFinalScore;
-    private Button mButtonReset;
 
     private boolean mIsCheater = false;
     private int mCurrentIndex = 0;
@@ -102,7 +103,7 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
             mQuestionBank[mCurrentIndex].setIsCheating(mIsCheater);
             checkGameOver();
         }
-        if (requestCode == REQUEST_CODE_SETTING) {
+        if (requestCode == REQUEST_SETTING_CODE) {
             updateQuestion();
         }
     }
@@ -138,8 +139,6 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
             public void onClick(View view) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
-
-
             }
         });
 
@@ -164,6 +163,13 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
                 intent.putExtra(EXTRA_QUESTION_ANSWER, mQuestionBank[mCurrentIndex].isAnswerTrue());
 
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
+            }
+        });
+        mButtonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GeoActivity.this, SettingActivity.class);
+                startActivityForResult(intent, REQUEST_SETTING_CODE);
             }
         });
 
@@ -251,6 +257,7 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
         mButtonReset = findViewById(R.id.btn_reset);
         mScoreLayout = findViewById(R.id.score);
         mMainLayout = findViewById(R.id.main);
+        mButtonSetting = findViewById(R.id.btn_setting);
 
     }
 }
