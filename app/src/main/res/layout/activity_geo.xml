@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="right|top"
     android:orientation="vertical"
-    tools:context=".Controller.QuizActivity">
+    tools:context=".Controller.GeoActivity">
 
     <LinearLayout
         android:id="@+id/main"
@@ -109,7 +109,7 @@
             tools:text="Score" />
 
         <Button
-            android:id="@+id/im_btn_reset"
+            android:id="@+id/btn_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="بازی مجدد" />

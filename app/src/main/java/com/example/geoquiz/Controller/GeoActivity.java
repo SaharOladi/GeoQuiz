@@ -248,7 +248,7 @@ public class GeoActivity extends AppCompatActivity implements Serializable {
         mImageButtonNext = findViewById(R.id.im_btn_next);
         mImageButtonPrev = findViewById(R.id.im_btn_prev);
         mTextViewFinalScore = findViewById(R.id.txt_final_score);
-        mButtonReset = findViewById(R.id.im_btn_reset);
+        mButtonReset = findViewById(R.id.btn_reset);
         mScoreLayout = findViewById(R.id.score);
         mMainLayout = findViewById(R.id.main);
 
