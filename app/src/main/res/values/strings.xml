@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyGeoQuiz</string>
+    <string name="app_name">GeoQuiz</string>
     <string name="question_text">تهران پایتخت ایران است</string>
     <string name="button_false">نادرست</string>
     <string name="button_true">درست</string>
